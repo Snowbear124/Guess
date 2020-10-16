@@ -6,4 +6,8 @@
     <string name="bigger">要在大一點</string>
     <string name="smaller">要在小一點</string>
     <string name="dialog_title">提示訊息</string>
+    <string name="replay_game">再玩一次</string>
+    <string name="are_you_sure">你要重玩嗎？</string>
+    <string name="excellent_the_number_is">超神的! 數字就是</string>
+    <string name="you_win">你已贏得遊戲,請重新開始</string>
 </resources>

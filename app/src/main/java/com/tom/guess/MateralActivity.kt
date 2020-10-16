@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.content_materal.*
 class MateralActivity : AppCompatActivity() {
     val guessNumber = GuessNumber()
     val TAG = MateralActivity::class.java.simpleName
+    var win = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,13 +23,14 @@ class MateralActivity : AppCompatActivity() {
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
             AlertDialog
                 .Builder(this)
-                .setTitle("Replay game")
-                .setMessage("Are you sure?")
+                .setTitle(getString(R.string.replay_game))
+                .setMessage(getString(R.string.are_you_sure))
                 .setPositiveButton("yes", {dialog, which ->
                     guessNumber.reset()
                     counter.setText(guessNumber.count.toString())
                     ed_number.setText("")
                     Log.d(TAG, "secret: " + guessNumber.SecretNumber)   //後台顯示secret的數字
+                    win = false
                 }) //要寫按鈕功能,先{}內寫上dialog, which ->, ->有指引括號的功能,接著就可以寫想要的功能
                 .setNeutralButton("No",null)
                 .show()
@@ -48,13 +50,19 @@ class MateralActivity : AppCompatActivity() {
         //推薦使用次指令來除錯，此指令在App執行上會自動隱藏
 
         val getNumber = guessNumber.validate(n)
+        var godGuess = 3
         var guessMessage = getString(R.string.yes_you_got_it)
         //在字串上打alt+enter,在選resource,可以直接將此字串變成資源,若已有也可以自己打
-        if(getNumber < 0) {
-            guessMessage = getString(R.string.bigger)
-        }else if(getNumber > 0) {
-            guessMessage = getString(R.string.smaller)
-        }
+        if(win == false) {
+            if (getNumber < 0) {
+                guessMessage = getString(R.string.bigger)
+            } else if (getNumber > 0) {
+                guessMessage = getString(R.string.smaller)
+            }else if (guessNumber.count < godGuess) {
+                guessMessage = getString(R.string.excellent_the_number_is)+ guessNumber.SecretNumber
+                win = true
+            }else win = true
+        }else guessMessage = getString(R.string.you_win)
 
         counter.setText(guessNumber.count.toString())
         //更動計數器的數字
